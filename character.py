@@ -1,6 +1,9 @@
 import pygame
-import chamber
+import projectile
 red = (255, 0, 0)
+
+player_sprite = pygame.sprite.Group()
+
 
 class Player(pygame.sprite.Sprite):  # Player class
 
@@ -21,8 +24,6 @@ class Player(pygame.sprite.Sprite):  # Player class
         self.rect.y = y
 
         self.gold = 0
-
-        self.bullets = 0
 
     def movement(self, x, y):
         self.move_x += x
@@ -57,3 +58,11 @@ class Player(pygame.sprite.Sprite):  # Player class
                 self.rect.bottom = block.rect.top
             else:
                 self.rect.top = block.rect.bottom
+
+    def shoot(self):
+
+        bullet = projectile.Bullet(self.rect.centerx, self.rect.centery)
+
+        player_sprite.add(bullet)
+
+        projectile.bullets.add(bullet)

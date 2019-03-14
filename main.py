@@ -1,6 +1,5 @@
 import pygame
 import character
-import barrier
 import chamber
 import projectile
 
@@ -13,15 +12,15 @@ level = [
 "W                                      W",
 "W                                      W",
 "W                                      W",
+"W                              R       W",
 "W                                      W",
 "W                                      W",
 "W                                      W",
-"W                                      W",
 "                                        ",
 "                                        ",
 "                                        ",
 "                                        ",
-"                                        ",
+"                      T                 ",
 "                                        ",
 "                                        ",
 "                                        ",
@@ -44,15 +43,14 @@ def main():
 
     pygame.init()  # This is to initialise pygame
 
-    screen_width = 800  # Assigns the width of the game
+    screen_width = 1000  # Assigns the width of the game
     screen_height = 600  # Assigns the height of the game
 
     gamedisplay = pygame.display.set_mode([screen_width, screen_height])
     # Creates the window of the sizes specified above
 
     player = character.Player(50, 50)
-    player_sprite = pygame.sprite.Group()
-    player_sprite.add(player)
+    character.player_sprite.add(player)
     player_speed = 4
     clock = pygame.time.Clock()
 
@@ -60,10 +58,6 @@ def main():
     key_down = pygame.K_DOWN
     key_left = pygame.K_LEFT
     key_right = pygame.K_RIGHT
-
-    # rooms = []
-    # room = chamber.make_room()
-    # rooms.append(room)
 
 
     rooms = []
@@ -86,6 +80,9 @@ def main():
                     player.movement(0, -player_speed)
                 if event.key == key_down:
                     player.movement(0, player_speed)
+                if event.key == pygame.K_SPACE:
+                    character.Player.shoot(player)
+
 
             if event.type == pygame.KEYUP:
                 if event.key == key_left:
@@ -97,10 +94,14 @@ def main():
                 if event.key == key_down:
                     player.movement(0, -player_speed)
 
+        projectile.bullets.update()
+
         player.move(room.wall_list)
         gamedisplay.fill(black)
-        player_sprite.draw(gamedisplay)
+        character.player_sprite.draw(gamedisplay)
         room.wall_list.draw(gamedisplay)
+        room.treasure_list.draw(gamedisplay)
+        room.enemy_list.draw(gamedisplay)
 
         clock.tick(60)
         pygame.display.flip()

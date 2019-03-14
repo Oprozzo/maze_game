@@ -1,5 +1,9 @@
 import pygame
 import barrier
+import treasure
+import enemy
+
+wall_sprite = pygame.sprite.Group()
 
 
 class Room:  # Class for all rooms
@@ -12,7 +16,7 @@ class Room:  # Class for all rooms
 
     def __init__(self):
         # creates our lists
-        self.wall_list = pygame.sprite.Group()
+        self.wall_list = wall_sprite
         self.enemy_list = pygame.sprite.Group()
         self.treasure_list = pygame.sprite.Group()
         self.bullet_list = pygame.sprite.Group()
@@ -28,31 +32,12 @@ class Room:  # Class for all rooms
                 if col == "W":
                     self.wall_list.add(barrier.Wall(x, y, 20, 20))
                 if col == "T":
-                    treasure_rect = pygame.Rect(x, y, 20, 20)
+                    self.treasure_list.add(treasure.Loot(x, y))
+                if col == "R":
+                    self.enemy_list.add(enemy.Rival(x, y))
                 x += 20
             y += 20
             x = 0
 
-# class make_room(Room):
-#
-#     def __init__(self):
-#         super().__init__()
-#
-#         walls = [[0, 0, 20, 250],  # top left v
-#                  [0, 350, 20, 250],  # bottom left v
-#
-#                  [780, 0, 20, 250],  # top right v
-#                  [780, 350, 20, 250],  # bottom right v
-#
-#                  [0, 0, 350, 20],  # top left h
-#                  [450, 0, 350, 20],  # top right h
-#
-#                  [0, 580, 350, 20],
-#                  [450, 580, 350, 20]
-#
-#                  ]
-#
-#         for brick in walls:
-#             brick = barrier.Wall(brick[0], brick[1], brick[2], brick[3])
-#             self.wall_list.add(brick)
+
 
